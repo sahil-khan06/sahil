@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===== SEO META TAGS ===== -->
+  <title>Sahil Khan | Programmer &amp; Web Designer from Kashmir</title>
+  <meta name="title" content="Sahil Khan | Programmer &amp; Web Designer from Kashmir" />
+  <meta name="description" content="Sahil Khan is a 12th-grade programmer, web designer, and app designer from Baramulla, Kashmir. Creator of Sama AI." />
+  <meta name="keywords" content="Sahil Khan, programmer, web designer, app designer, Kashmir, Baramulla, Sama AI" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Sahil Khan | Programmer &amp; Web Designer" />
+  <meta property="og:description" content="Portfolio of Sahil Khan from Kashmir. Creator of Sama AI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sahilkhan-portfolio.netlify.app/" />
+
+  <!-- ===== FONT AWESOME ===== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg-primary: #080a1a;
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --border-glass: rgba(255, 255, 255, 0.06);
+      --text-primary: #ffffff;
+      --text-secondary: #b0b8d1;
+      --text-muted: #6b7aa3;
+      --accent: #4f8cf7;
+      --accent2: #a855f7;
+      --card-hover: rgba(79, 140, 247, 0.08);
+      --shadow-glow: rgba(79, 140, 247, 0.3);
+    }
+
+    body.light-mode {
+      --bg-primary: #f0f2f8;
+      --bg-glass: rgba(255, 255, 255, 0.7);
+      --border-glass: rgba(0, 0, 0, 0.08);
+      --text-primary: #0a0c1a;
+      --text-secondary: #2d3349;
+      --text-muted: #5a6889;
+      --card-hover: rgba(79, 140, 247, 0.12);
+      --shadow-glow: rgba(79, 140, 247, 0.15);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+      cursor: none;
+    }
+
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    #cursor-glow {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79, 140, 247, 0.35), transparent 70%);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      transition: width 0.2s, height 0.2s;
+    }
+    #cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: 0.08s;
+      box-shadow: 0 0 20px var(--accent), 0 0 60px rgba(79, 140, 247, 0.25);
+    }
+
+    /* ============================================================
+       3D CANVAS
+    ============================================================ */
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       LOADER
+    ============================================================ */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.8s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #loader h1 {
+      font-size: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 1s infinite alternate;
+    }
+    #loader .bar {
+      width: 200px;
+      height: 4px;
+      background: #1a1d3e;
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    #loader .bar span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      animation: loadBar 1.8s ease forwards;
+    }
+    @keyframes loadBar {
+      to { width: 100%; }
+    }
+    @keyframes pulse {
+      0% { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.05); }
+    }
+
+    /* ============================================================
+       CONTENT WRAPPER
+    ============================================================ */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ============================================================
+       DARK/LIGHT TOGGLE
+    ============================================================ */
+    .theme-toggle {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-glass);
+      border-radius: 40px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      color: var(--text-secondary);
+      font-size: 18px;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      transform: scale(1.05);
+    }
+    .theme-toggle i {
+      transition: 0.3s;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background: rgba(10, 12, 30, 0.5);
+      backdrop-filter: blur(18px);
+      border-radius: 60px;
+      margin: 20px auto;
+      border: 1px solid var(--border-glass);
+      max-width: 1100px;
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+      animation: slideDown 0.8s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    nav .logo {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200%;
+      animation: gradShift 3s infinite alternate;
+    }
+    @keyframes gradShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+    nav ul a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+      font-size: 15px;
+      position: relative;
+    }
+    nav ul a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--accent);
+      transition: 0.3s;
+      box-shadow: 0 0 20px var(--accent);
+    }
+    nav ul a:hover::after {
+      width: 100%;
+    }
+    nav ul a:hover {
+      color: var(--accent);
+    }
+    nav .contact-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      padding: 8px 24px;
+      border-radius: 40px;
+      color: #fff !important;
+      font-weight: 600;
+      box-shadow: 0 0 30px var(--shadow-glow);
+      transition: 0.4s;
+    }
+    nav .contact-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 50px var(--shadow-glow);
+    }
+    nav .contact-btn::after {
+      display: none;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      min-height: 82vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .hero h1 {
+      font-size: 78px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent2) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 300%;
+      animation: gradShift 4s infinite alternate, floatText 3s infinite ease-in-out;
+      filter: drop-shadow(0 0 40px rgba(79, 140, 247, 0.15));
+    }
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .hero .sub {
+      font-size: 26px;
+      color: var(--text-secondary);
+      margin: 14px 0 6px;
+      min-height: 50px;
+      animation: glowPulse 2s infinite alternate;
+    }
+    .hero .sub .typed-cursor {
+      color: var(--accent);
+      font-weight: 300;
+      animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes glowPulse {
+      0% { text-shadow: 0 0 10px rgba(79, 140, 247, 0.1); }
+      100% { text-shadow: 0 0 30px rgba(79, 140, 247, 0.3), 0 0 60px rgba(79, 140, 247, 0.1); }
+    }
+    .hero .location {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .hero .location i {
+      color: var(--accent);
+      margin-right: 8px;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-group a {
+      padding: 14px 38px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.4s;
+      font-size: 16px;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 0 40px var(--shadow-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.04);
+      box-shadow: 0 0 70px var(--shadow-glow);
+    }
+    .btn-outline {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--card-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 0 40px var(--shadow-glow);
+      border-color: var(--accent2);
+    }
+    .btn-group a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      transform: translateX(-100%);
+      transition: 0.6s;
+    }
+    .btn-group a:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
+    section {
+      padding: 70px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 44px;
+      border-left: 6px solid var(--accent);
+      padding-left: 22px;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    .section-title::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 0;
+      height: 100%;
+      width: 6px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    /* ============================================================
+       GLASSMORPHISM
+    ============================================================ */
+    .glass {
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 30px 34px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      transition: 0.5s;
+      position: relative;
+      overflow: hidden;
+    }
+    .glass::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(79, 140, 247, 0.15), transparent, rgba(168, 85, 247, 0.15));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .glass:hover {
+      border-color: rgba(79, 140, 247, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 70px var(--card-hover);
+    }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 38px;
+    }
+    .about-text p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .about-text .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+    .about-info p {
+      margin: 13px 0;
+      font-size: 16px;
+      color: var(--text-secondary);
+      transition: 0.3s;
+    }
+    .about-info p:hover {
+      transform: translateX(6px);
+      color: var(--text-primary);
+    }
+    .about-info i {
+      color: var(--accent);
+      width: 30px;
+      font-size: 18px;
+    }
+
+    /* ============================================================
+       SKILLS
+    ============================================================ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 22px;
+    }
+    .skill-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-glass);
+      padding: 22px 12px;
+      text-align: center;
+      border-radius: 18px;
+      transition: 0.5s;
+      font-weight: 500;
+      color: var(--text-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(79, 140, 247, 0.08), transparent 70%);
+      opacity: 0;
+      transition: 0.4s;
+    }
+    .skill-card:hover::before {
+      opacity: 1;
+    }
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 15px 50px var(--card-hover);
+    }
+    .skill-card i {
+      font-size: 38px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      display: block;
+      transition: 0.4s;
+    }
+    .skill-card:hover i {
+      transform: scale(1.15) rotate(6deg);
+    }
+
+    /* ============================================================
+       PROJECTS
+    ============================================================ */
+    .project-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-glass);
+      padding: 28px 30px;
+      border-radius: 22px;
+      margin-bottom: 26px;
+      transition: 0.5s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(79, 140, 247, 0.04), transparent 60%);
+      opacity: 0;
+      transition: 0.5s;
+    }
+    .project-card:hover::after {
+      opacity: 1;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateX(8px) scale(1.01);
+      box-shadow: 0 10px 50px var(--card-hover);
+    }
+    .project-card h3 {
+      font-size: 24px;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+    }
+    .project-card h3 i {
+      color: var(--accent);
+      margin-right: 10px;
+      animation: pulse 2s infinite;
+    }
+    .project-card p {
+      color: var(--text-secondary);
+      margin: 10px 0 14px;
+      font-size: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .project-card a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    .project-card a:hover {
+      text-decoration: underline;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(79, 140, 247, 0.1);
+      padding: 3px 16px;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-right: 6px;
+      border: 1px solid rgba(79, 140, 247, 0.08);
+      transition: 0.3s;
+    }
+    .tag:hover {
+      background: rgba(79, 140, 247, 0.18);
+      transform: scale(1.04);
+    }
+
+    /* ============================================================
+       DREAMS & SKILLS IMAGE SECTION (YOUR IMAGE)
+    ============================================================ */
+    .dreams-image-container {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      transition: 0.5s;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .dreams-image-container::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 24px;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(79, 140, 247, 0.2), transparent, rgba(168, 85, 247, 0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .dreams-image-container:hover {
+      border-color: rgba(79, 140, 247, 0.2);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 70px rgba(79, 140, 247, 0.08);
+    }
+
+    /* IMAGE ANIMATIONS */
+    .dreams-image {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      border-radius: 16px;
+      display: block;
+      transition: 0.6s ease;
+      animation: imageReveal 1.2s ease forwards, imageFloat 4s infinite alternate ease-in-out 1.2s;
+      filter: drop-shadow(0 0 20px rgba(79, 140, 247, 0.05));
+    }
+
+    .dreams-image:hover {
+      transform: scale(1.02);
+      filter: drop-shadow(0 0 40px rgba(79, 140, 247, 0.2));
+    }
+
+    /* Reveal Animation */
+    @keyframes imageReveal {
+      0% {
+        opacity: 0;
+        transform: scale(0.85) rotate(-2deg);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0);
+      }
+    }
+
+    /* Float Animation */
+    @keyframes imageFloat {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-12px) rotate(0.5deg);
+      }
+    }
+
+    /* ===== QUOTE ===== */
+    .dreams-quote {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4f8cf7, #a855f7, #4f8cf7);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradShift 3s infinite alternate, pulse 2s infinite;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 22px;
+    }
+    .contact-grid p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      transition: 0.3s;
+    }
+    .contact-grid p:hover {
+      transform: translateX(6px);
+      color: var(--text-primary);
+    }
+    .contact-grid i {
+      color: var(--accent);
+      width: 28px;
+      font-size: 18px;
+    }
+    .contact-grid a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .contact-grid a:hover {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       SOCIAL LINKS
+    ============================================================ */
+    .social-links {
+      margin-top: 38px;
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .social-links a {
+      color: var(--text-secondary);
+      font-size: 30px;
+      transition: 0.4s;
+      display: inline-block;
+    }
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-6px) scale(1.12);
+      filter: drop-shadow(0 0 30px rgba(79, 140, 247, 0.3));
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      text-align: center;
+      padding: 36px 20px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-glass);
+      margin-top: 36px;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       FLOATING WHATSAPP BUTTON
+    ============================================================ */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #25D366;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 50px;
+      z-index: 999;
+      font-size: 17px;
+      font-weight: 600;
+      box-shadow: 0 0 30px rgba(37, 211, 102, 0.35);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.4s;
+      border: none;
+      font-family: inherit;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 50px rgba(37, 211, 102, 0.5);
+      color: #fff;
+    }
+    .whatsapp-float i {
+      font-size: 22px;
+    }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+    ============================================================ */
+    .scroll-anim {
+      opacity: 0;
+      transform: scale(0.92) translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .scroll-anim.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .scroll-anim-left {
+      opacity: 0;
+      transform: translateX(-70px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .scroll-anim-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .scroll-anim-right {
+      opacity: 0;
+      transform: translateX(70px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .scroll-anim-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 18px;
+        border-radius: 30px;
+        margin: 12px;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+      .hero h1 {
+        font-size: 42px;
+      }
+      .hero .sub {
+        font-size: 18px;
+        min-height: 40px;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        font-size: 28px;
+      }
+      .glass {
+        padding: 20px 16px;
+      }
+      .btn-group a {
+        padding: 11px 26px;
+        font-size: 14px;
+      }
+      .whatsapp-float {
+        padding: 10px 16px;
+        font-size: 14px;
+        bottom: 16px;
+        right: 16px;
+      }
+      .whatsapp-float span {
+        display: none;
+      }
+      #cursor-glow,
+      #cursor-dot {
+        display: none;
+      }
+      body {
+        cursor: auto;
+      }
+      .dreams-image {
+        max-width: 100%;
+      }
+      .dreams-quote {
+        font-size: 18px;
+        letter-spacing: 1px;
+      }
+      .dreams-image-container {
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 30px;
+      }
+      .hero .sub {
+        font-size: 15px;
+        min-height: 34px;
+      }
+      .section-title {
+        font-size: 22px;
+      }
+      .dreams-quote {
+        font-size: 14px;
+        padding: 14px;
+      }
+      .dreams-image-container {
+        padding: 8px;
+        border-radius: 16px;
+      }
+      .dreams-image {
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== CUSTOM CURSOR ===== -->
+  <div id="cursor-glow"></div>
+  <div id="cursor-dot"></div>
+
+  <!-- ===== LOADER ===== -->
+  <div id="loader">
+    <h1>🚀 Sahil Khan</h1>
+    <div class="bar"><span></span></div>
+  </div>
+
+  <!-- ===== 3D CANVAS ===== -->
+  <div id="three-canvas"></div>
+
+  <!-- ============================================================
+  CONTENT
+  ============================================================ -->
+  <div class="content">
+
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+      <div class="logo">Sahil<span>Khan</span></div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#dreams">Dreams</a></li>
+        <li>
+          <a href="#contact" class="contact-btn">Contact</a>
+        </li>
+        <li>
+          <div class="theme-toggle" id="themeToggle" title="Toggle Theme">
+            <i class="fas fa-sun" id="themeIcon"></i>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+      <h1>Sahil Khan</h1>
+      <p class="sub" id="typed-text">
+        <span id="typewriter"></span><span class="typed-cursor">|</span>
+      </p>
+      <p class="location"><i class="fas fa-map-marker-alt"></i> Baramulla, Kashmir</p>
+      <div class="btn-group">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Hire Me</a>
+        <a href="#" class="btn-outline" id="resumeBtn">📄 Download Resume</a>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="scroll-anim">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid glass">
+        <div class="about-text">
+          <p>👋 Hey! I'm <span class="highlight">Sahil Khan</span>, a passionate <span class="highlight">programmer, web designer, and app designer</span> from Baramulla, Kashmir.</p>
+          <p>I build clean, modern, and functional digital experiences. I'm deeply into <span class="highlight">business and trading</span> — tech + finance is the future.</p>
+          <p>Currently in <span class="highlight">12th grade</span>, I already have a live project <strong>"Sama AI"</strong> — my AI-powered website.</p>
+          <p>💡 Let's build something awesome together!</p>
+        </div>
+        <div class="about-info">
+          <p><i class="fas fa-user"></i> <strong>Name:</strong> Sahil Khan</p>
+          <p><i class="fas fa-map-pin"></i> <strong>Location:</strong> Baramulla, Kashmir</p>
+          <p><i class="fas fa-graduation-cap"></i> <strong>Education:</strong> 12th Grade</p>
+          <p><i class="fas fa-code"></i> <strong>Role:</strong> Programmer &amp; Designer</p>
+          <p><i class="fas fa-rocket"></i> <strong>Interests:</strong> Coding · Business · Trading</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="scroll-anim">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card"><i class="fab fa-html5"></i>HTML5</div>
+        <div class="skill-card"><i class="fab fa-css3-alt"></i>CSS3</div>
+        <div class="skill-card"><i class="fab fa-js"></i>JavaScript</div>
+        <div class="skill-card"><i class="fab fa-python"></i>Python</div>
+        <div class="skill-card"><i class="fas fa-mobile-alt"></i>App Design</div>
+        <div class="skill-card"><i class="fas fa-paint-brush"></i>UI/UX</div>
+        <div class="skill-card"><i class="fas fa-chart-line"></i>Trading</div>
+        <div class="skill-card"><i class="fas fa-briefcase"></i>Business</div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="scroll-anim">
+      <h2 class="section-title">Projects</h2>
+
+      <div class="project-card glass scroll-anim-left">
+        <h3><i class="fas fa-robot"></i> Sama AI</h3>
+        <p>My flagship project — an AI-powered website built from scratch. Designed the UI, logic, and deployed it live.</p>
+        <span class="tag">AI</span>
+        <span class="tag">Web App</span>
+        <span class="tag">Live</span>
+        <br><br>
+        <a href="https://sama-ai-site.netlify.app/" target="_blank">🔗 Visit Sama AI →</a>
+        <br>
+        <a href="https://github.com/sujangyan42028-lgtm/SAMA-AI.git" target="_blank">🐙 GitHub Repo →</a>
+      </div>
+
+      <div class="project-card glass scroll-anim-right">
+        <h3><i class="fas fa-globe"></i> More Coming Soon</h3>
+        <p>Constantly building — websites, apps, trading tools. Stay tuned!</p>
+        <span class="tag">In Progress</span>
+        <span class="tag">Future</span>
+      </div>
+    </section>
+
+    <!-- ===== DREAMS & SKILLS IMAGE SECTION (YOUR IMAGE) ===== -->
+    <section id="dreams" class="scroll-anim">
+      <h2 class="section-title">Dreams &amp; Skills</h2>
+
+      <div class="dreams-image-container glass">
+        <img 
+          src="file_00000000cba4820bae40abba355b384a.png" 
+          alt="Sahil Khan - Dreams & Skills" 
+          class="dreams-image"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="dreams-quote">
+        <p>🚀 TURNING IDEAS INTO REALITY</p>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="scroll-anim">
+      <h2 class="section-title">Contact</h2>
+      <div class="glass contact-grid">
+        <p><i class="fas fa-phone"></i> <a href="tel:+919103151881">+91 9103151881</a></p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:sahilkhan0786xv@gmail.com">sahilkhan0786xv@gmail.com</a></p>
+        <p><i class="fas fa-map-marker-alt"></i> Baramulla, Kashmir</p>
+      </div>
+
+      <div class="social-links">
+        <a href="https://github.com/sujangyan42028-lgtm" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/xevon.exe?stkn=MTBqeTZsbmoyZWVleg==" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com/@yourchannel" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+      <p style="text-align:center; margin-top:18px; color:var(--text-muted); font-size:13px;">
+        📌 Replace <code>yourusername</code> / <code>yourchannel</code> with your real links
+      </p>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      &copy; 2026 Sahil Khan | Built with ❤️ from Kashmir, Baramulla
+    </footer>
+
+  </div>
+  <!-- /content -->
+
+
+  <!-- ===== FLOATING WHATSAPP BUTTON ===== -->
+  <a href="https://wa.me/919103151881" target="_blank" class="whatsapp-float">
+    <i class="fab fa-whatsapp"></i>
+    <span>Chat with me</span>
+  </a>
+
+
+  <!-- ============================================================
+  THREE.JS 3D BACKGROUND
+  ============================================================ -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.126.0/build/three.module.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    // ---- 3D ----
+    import * as THREE from 'three';
+
+    const container = document.getElementById('three-canvas');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x080a1a);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 14);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const ambient = new THREE.AmbientLight(0x404070);
+    scene.add(ambient);
+    const dirLight = new THREE.DirectionalLight(0x4f8cf7, 1.8);
+    dirLight.position.set(2, 5, 5);
+    scene.add(dirLight);
+    const backLight = new THREE.DirectionalLight(0xa855f7, 0.6);
+    backLight.position.set(-3, -1, -4);
+    scene.add(backLight);
+    const fillLight = new THREE.DirectionalLight(0x6c5ce7, 0.4);
+    fillLight.position.set(-2, 3, 3);
+    scene.add(fillLight);
+
+    // Main Torus Knot
+    const geo = new THREE.TorusKnotGeometry(1.6, 0.5, 128, 16);
+    const mat = new THREE.MeshStandardMaterial({
+      color: 0x4f8cf7,
+      emissive: 0x1a2b5c,
+      roughness: 0.15,
+      metalness: 0.9,
+    });
+    const knot = new THREE.Mesh(geo, mat);
+    scene.add(knot);
+
+    // Wireframe overlay
+    const wireGeo = new THREE.TorusKnotGeometry(1.65, 0.55, 64, 8);
+    const wireMat = new THREE.MeshBasicMaterial({
+      color: 0x7c3aed,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15,
+    });
+    const wire = new THREE.Mesh(wireGeo, wireMat);
+    scene.add(wire);
+
+    // Particles
+    const pCount = 3000;
+    const pGeo = new THREE.BufferGeometry();
+    const pos = new Float32Array(pCount * 3);
+    const colors = new Float32Array(pCount * 3);
+    for (let i = 0; i < pCount * 3; i++) {
+      pos[i] = (Math.random() - 0.5) * 50;
+      colors[i] = Math.random() * 0.5 + 0.5;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const pMat = new THREE.PointsMaterial({
+      size: 0.07,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending,
+    });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    // Ring 1
+    const ring = new THREE.Group();
+    const cubeMat = new THREE.MeshStandardMaterial({
+      color: 0x7c3aed,
+      emissive: 0x2d1f5e,
+      roughness: 0.2,
+      metalness: 0.6,
+    });
+    for (let i = 0; i < 40; i++) {
+      const angle = (i / 40) * Math.PI * 2;
+      const r = 3.2;
+      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), cubeMat);
+      cube.position.set(Math.cos(angle) * r, Math.sin(angle) * r * 0.4, Math.sin(angle) * r * 0.4);
+      ring.add(cube);
+    }
+    scene.add(ring);
+
+    // Ring 2
+    const ring2 = new THREE.Group();
+    const cubeMat2 = new THREE.MeshStandardMaterial({
+      color: 0x4f8cf7,
+      emissive: 0x1a2b5c,
+      roughness: 0.2,
+      metalness: 0.5,
+    });
+    for (let i = 0; i < 30; i++) {
+      const angle = (i / 30) * Math.PI * 2;
+      const r = 4.0;
+      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, 0.06), cubeMat2);
+      cube.position.set(Math.cos(angle) * r, Math.sin(angle) * r * 0.3, Math.cos(angle) * r * 0.3);
+      ring2.add(cube);
+    }
+    scene.add(ring2);
+
+    // Mouse
+    let mouseX = 0,
+      mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Loader hide
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+    }, 2000);
+
+    // Cursor
+    const glow = document.getElementById('cursor-glow');
+    const dot = document.getElementById('cursor-dot');
+    document.addEventListener('mousemove', (e) => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+      dot.style.left = e.clientX + 'px';
+      dot.style.top = e.clientY + 'px';
+    });
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      knot.rotation.x += 0.004;
+      knot.rotation.y += 0.008;
+      wire.rotation.x = knot.rotation.x;
+      wire.rotation.y = knot.rotation.y;
+
+      ring.rotation.x += 0.003;
+      ring.rotation.y += 0.006;
+      ring2.rotation.x -= 0.002;
+      ring2.rotation.y += 0.004;
+
+      particles.rotation.y += 0.0003;
+
+      knot.rotation.x += (mouseY * 0.15 - knot.rotation.x) * 0.02;
+      knot.rotation.y += (mouseX * 0.2 - knot.rotation.y) * 0.02;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Scroll Observer
+    const anims = document.querySelectorAll('.scroll-anim, .scroll-anim-left, .scroll-anim-right');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    anims.forEach(el => obs.observe(el));
+
+    // ---- THEME TOGGLE (Dark / Light) ----
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    let dark = true;
+
+    toggle.addEventListener('click', () => {
+      dark = !dark;
+      document.body.classList.toggle('light-mode', !dark);
+      icon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+      scene.background.setHex(dark ? 0x080a1a : 0xf0f2f8);
+    });
+
+    // ---- TYPING EFFECT ----
+    const words = ['Programmer', 'Web Designer', 'App Designer', 'Trader', 'AI Enthusiast'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typeEl = document.getElementById('typewriter');
+
+    function typeEffect() {
+      const current = words[wordIndex];
+      if (!isDeleting) {
+        typeEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === current.length) {
+          isDeleting = true;
+          setTimeout(typeEffect, 2000);
+          return;
+        }
+        setTimeout(typeEffect, 100);
+      } else {
+        typeEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+        if (charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          setTimeout(typeEffect, 400);
+          return;
+        }
+        setTimeout(typeEffect, 50);
+      }
+    }
+    typeEffect();
+
+    // ---- RESUME BUTTON (Placeholder) ----
+    document.getElementById('resumeBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('📄 Upload your resume.pdf in the same folder and update the href!');
+    });
+
+    // ---- SKILL CARD MOUSE GLOW ----
+    document.querySelectorAll('.skill-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mx', x + '%');
+        card.style.setProperty('--my', y + '%');
+      });
+    });
+  </script>
+
+</body>
+</html>
