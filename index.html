@@ -21,6 +21,11 @@
   <!-- ===== FONT AWESOME ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
+  <!-- ===== GOOGLE FONTS (Calligraphy + Clean) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     /* ============================================================
        RESET & BASE
@@ -57,12 +62,56 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       overflow-x: hidden;
       transition: background 0.4s ease, color 0.4s ease;
       cursor: none;
+    }
+
+    /* ============================================================
+       TOP BACKGROUND IMAGE (with animation)
+    ============================================================ */
+    .top-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      max-height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%);
+    }
+    .top-bg-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      animation: bgZoom 20s infinite alternate ease-in-out;
+      opacity: 0.85;
+    }
+    @keyframes bgZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+
+    /* Fallback gradient if image fails */
+    .top-bg-fallback {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(-45deg, #080b1a, #0f1428, #0a0f1f, #141a30);
+      background-size: 400% 400%;
+      animation: gradientBG 14s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     /* ============================================================
@@ -104,6 +153,7 @@
       height: 100vh;
       z-index: 0;
       pointer-events: none;
+      opacity: 0.6;
     }
 
     /* ============================================================
@@ -130,6 +180,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: pulse 1s infinite alternate;
+      font-family: 'Great Vibes', cursive;
     }
     #loader .bar {
       width: 200px;
@@ -213,13 +264,15 @@
       to { opacity: 1; transform: translateY(0); }
     }
     nav .logo {
-      font-size: 24px;
-      font-weight: 800;
+      font-size: 32px;
+      font-weight: 400;
+      font-family: 'Great Vibes', cursive;
       background: linear-gradient(135deg, #fff, var(--accent), var(--accent2));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-size: 200%;
       animation: gradShift 3s infinite alternate;
+      letter-spacing: 1px;
     }
     @keyframes gradShift {
       0% { background-position: 0% 50%; }
@@ -286,21 +339,29 @@
       padding: 40px 20px;
     }
     .hero h1 {
-      font-size: 78px;
-      font-weight: 900;
+      font-size: 120px;
+      font-weight: 400;
+      font-family: 'Great Vibes', cursive;
       background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent2) 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-size: 300%;
-      animation: gradShift 4s infinite alternate, floatText 3s infinite ease-in-out;
-      filter: drop-shadow(0 0 40px rgba(79, 140, 247, 0.15));
+      animation: gradShift 4s infinite alternate, floatText 3s infinite ease-in-out, nameGlow 3s infinite alternate;
+      filter: drop-shadow(0 0 40px rgba(79, 140, 247, 0.25));
+      line-height: 1.2;
+      letter-spacing: 2px;
     }
     @keyframes floatText {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes nameGlow {
+      0% { filter: drop-shadow(0 0 20px rgba(79, 140, 247, 0.2)); }
+      100% { filter: drop-shadow(0 0 60px rgba(168, 85, 247, 0.4)); }
     }
     .hero .sub {
-      font-size: 26px;
+      font-size: 30px;
+      font-family: 'Dancing Script', cursive;
       color: var(--text-secondary);
       margin: 14px 0 6px;
       min-height: 50px;
@@ -391,8 +452,9 @@
       margin: 0 auto;
     }
     .section-title {
-      font-size: 38px;
-      font-weight: 700;
+      font-size: 52px;
+      font-weight: 400;
+      font-family: 'Great Vibes', cursive;
       margin-bottom: 44px;
       border-left: 6px solid var(--accent);
       padding-left: 22px;
@@ -400,6 +462,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       position: relative;
+      letter-spacing: 1px;
     }
     .section-title::before {
       content: '';
@@ -463,6 +526,8 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       font-weight: 700;
+      font-family: 'Dancing Script', cursive;
+      font-size: 22px;
     }
     .about-info p {
       margin: 13px 0;
@@ -561,10 +626,13 @@
       box-shadow: 0 10px 50px var(--card-hover);
     }
     .project-card h3 {
-      font-size: 24px;
+      font-size: 36px;
+      font-family: 'Great Vibes', cursive;
+      font-weight: 400;
       color: var(--text-primary);
       position: relative;
       z-index: 1;
+      letter-spacing: 1px;
     }
     .project-card h3 i {
       color: var(--accent);
@@ -664,15 +732,15 @@
       text-align: center;
       margin-top: 30px;
       padding: 20px;
-      font-size: 26px;
-      font-weight: 700;
+      font-size: 42px;
+      font-family: 'Great Vibes', cursive;
+      font-weight: 400;
       background: linear-gradient(135deg, #4f8cf7, #a855f7, #4f8cf7);
       background-size: 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: gradShift 3s infinite alternate, pulse 2s infinite;
       letter-spacing: 2px;
-      text-transform: uppercase;
     }
 
     /* ============================================================
@@ -738,6 +806,11 @@
       border-top: 1px solid var(--border-glass);
       margin-top: 36px;
       font-size: 14px;
+    }
+    footer span {
+      font-family: 'Great Vibes', cursive;
+      font-size: 22px;
+      color: var(--accent);
     }
 
     /* ============================================================
@@ -819,18 +892,28 @@
         justify-content: center;
         gap: 12px;
       }
+      nav .logo {
+        font-size: 28px;
+      }
       .hero h1 {
-        font-size: 42px;
+        font-size: 64px;
       }
       .hero .sub {
-        font-size: 18px;
+        font-size: 22px;
         min-height: 40px;
       }
       .about-grid {
         grid-template-columns: 1fr;
       }
       .section-title {
-        font-size: 28px;
+        font-size: 38px;
+      }
+      .project-card h3 {
+        font-size: 30px;
+      }
+      .dreams-quote {
+        font-size: 32px;
+        letter-spacing: 1px;
       }
       .glass {
         padding: 20px 16px;
@@ -858,10 +941,6 @@
       .dreams-image {
         max-width: 100%;
       }
-      .dreams-quote {
-        font-size: 18px;
-        letter-spacing: 1px;
-      }
       .dreams-image-container {
         padding: 12px;
       }
@@ -869,17 +948,20 @@
 
     @media (max-width: 480px) {
       .hero h1 {
-        font-size: 30px;
+        font-size: 44px;
       }
       .hero .sub {
-        font-size: 15px;
+        font-size: 18px;
         min-height: 34px;
       }
       .section-title {
-        font-size: 22px;
+        font-size: 30px;
+      }
+      .project-card h3 {
+        font-size: 24px;
       }
       .dreams-quote {
-        font-size: 14px;
+        font-size: 24px;
         padding: 14px;
       }
       .dreams-image-container {
@@ -894,6 +976,12 @@
 </head>
 
 <body>
+
+  <!-- ===== TOP BACKGROUND IMAGE ===== -->
+  <div class="top-bg-image">
+    <img src="file_00000000cba4820bae40abba355b384b.png" alt="Sahil Khan Banner" />
+  </div>
+  <div class="top-bg-fallback"></div>
 
   <!-- ===== CUSTOM CURSOR ===== -->
   <div id="cursor-glow"></div>
@@ -915,7 +1003,7 @@
 
     <!-- ===== NAVBAR ===== -->
     <nav>
-      <div class="logo">Sahil<span>Khan</span></div>
+      <div class="logo">Sahil Khan</div>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -998,7 +1086,7 @@
         <a href="https://github.com/sujangyan42028-lgtm/SAMA-AI.git" target="_blank">🐙 GitHub Repo →</a>
       </div>
 
-      <!-- Project 2: Lone Traders (NEW) -->
+      <!-- Project 2: Lone Traders -->
       <div class="project-card glass scroll-anim-right">
         <h3><i class="fas fa-chart-line"></i> Lone Traders</h3>
         <p>A professional trading website built for a client. Designed the UI, layout, and deployed it live — focused on clean design and smooth user experience.</p>
@@ -1032,7 +1120,7 @@
       </div>
 
       <div class="dreams-quote">
-        <p>🚀 TURNING IDEAS INTO REALITY</p>
+        <p>🚀 Turning Ideas Into Reality</p>
       </div>
     </section>
 
@@ -1059,7 +1147,7 @@
 
     <!-- ===== FOOTER ===== -->
     <footer>
-      &copy; 2026 Sahil Khan | Built with ❤️ from Kashmir, Baramulla
+      &copy; 2026 <span>Sahil Khan</span> | Built with ❤️ from Kashmir, Baramulla
     </footer>
 
   </div>
@@ -1109,34 +1197,9 @@
     const backLight = new THREE.DirectionalLight(0xa855f7, 0.6);
     backLight.position.set(-3, -1, -4);
     scene.add(backLight);
-    const fillLight = new THREE.DirectionalLight(0x6c5ce7, 0.4);
-    fillLight.position.set(-2, 3, 3);
-    scene.add(fillLight);
-
-    // Main Torus Knot
-    const geo = new THREE.TorusKnotGeometry(1.6, 0.5, 128, 16);
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0x4f8cf7,
-      emissive: 0x1a2b5c,
-      roughness: 0.15,
-      metalness: 0.9,
-    });
-    const knot = new THREE.Mesh(geo, mat);
-    scene.add(knot);
-
-    // Wireframe overlay
-    const wireGeo = new THREE.TorusKnotGeometry(1.65, 0.55, 64, 8);
-    const wireMat = new THREE.MeshBasicMaterial({
-      color: 0x7c3aed,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.15,
-    });
-    const wire = new THREE.Mesh(wireGeo, wireMat);
-    scene.add(wire);
 
     // Particles
-    const pCount = 3000;
+    const pCount = 2000;
     const pGeo = new THREE.BufferGeometry();
     const pos = new Float32Array(pCount * 3);
     const colors = new Float32Array(pCount * 3);
@@ -1147,10 +1210,10 @@
     pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     const pMat = new THREE.PointsMaterial({
-      size: 0.07,
+      size: 0.06,
       vertexColors: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.6,
       blending: THREE.AdditiveBlending,
     });
     const particles = new THREE.Points(pGeo, pMat);
@@ -1167,7 +1230,7 @@
     for (let i = 0; i < 40; i++) {
       const angle = (i / 40) * Math.PI * 2;
       const r = 3.2;
-      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), cubeMat);
+      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.08), cubeMat);
       cube.position.set(Math.cos(angle) * r, Math.sin(angle) * r * 0.4, Math.sin(angle) * r * 0.4);
       ring.add(cube);
     }
@@ -1184,7 +1247,7 @@
     for (let i = 0; i < 30; i++) {
       const angle = (i / 30) * Math.PI * 2;
       const r = 4.0;
-      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, 0.06), cubeMat2);
+      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, 0.05), cubeMat2);
       cube.position.set(Math.cos(angle) * r, Math.sin(angle) * r * 0.3, Math.cos(angle) * r * 0.3);
       ring2.add(cube);
     }
@@ -1223,20 +1286,12 @@
     function animate() {
       requestAnimationFrame(animate);
 
-      knot.rotation.x += 0.004;
-      knot.rotation.y += 0.008;
-      wire.rotation.x = knot.rotation.x;
-      wire.rotation.y = knot.rotation.y;
+      ring.rotation.x += 0.002;
+      ring.rotation.y += 0.004;
+      ring2.rotation.x -= 0.001;
+      ring2.rotation.y += 0.003;
 
-      ring.rotation.x += 0.003;
-      ring.rotation.y += 0.006;
-      ring2.rotation.x -= 0.002;
-      ring2.rotation.y += 0.004;
-
-      particles.rotation.y += 0.0003;
-
-      knot.rotation.x += (mouseY * 0.15 - knot.rotation.x) * 0.02;
-      knot.rotation.y += (mouseX * 0.2 - knot.rotation.y) * 0.02;
+      particles.rotation.y += 0.0002;
 
       renderer.render(scene, camera);
     }
