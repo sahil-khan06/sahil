@@ -605,7 +605,7 @@
     }
 
     /* ============================================================
-       DREAMS & SKILLS IMAGE SECTION (YOUR IMAGE)
+       DREAMS & SKILLS IMAGE SECTION
     ============================================================ */
     .dreams-image-container {
       padding: 20px;
@@ -621,7 +621,6 @@
       overflow: hidden;
       position: relative;
     }
-
     .dreams-image-container::before {
       content: '';
       position: absolute;
@@ -634,14 +633,11 @@
       mask-composite: exclude;
       pointer-events: none;
     }
-
     .dreams-image-container:hover {
       border-color: rgba(79, 140, 247, 0.2);
       transform: translateY(-6px);
       box-shadow: 0 20px 70px rgba(79, 140, 247, 0.08);
     }
-
-    /* IMAGE ANIMATIONS */
     .dreams-image {
       width: 100%;
       max-width: 900px;
@@ -652,37 +648,18 @@
       animation: imageReveal 1.2s ease forwards, imageFloat 4s infinite alternate ease-in-out 1.2s;
       filter: drop-shadow(0 0 20px rgba(79, 140, 247, 0.05));
     }
-
     .dreams-image:hover {
       transform: scale(1.02);
       filter: drop-shadow(0 0 40px rgba(79, 140, 247, 0.2));
     }
-
-    /* Reveal Animation */
     @keyframes imageReveal {
-      0% {
-        opacity: 0;
-        transform: scale(0.85) rotate(-2deg);
-        filter: blur(8px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-        filter: blur(0);
-      }
+      0% { opacity: 0; transform: scale(0.85) rotate(-2deg); filter: blur(8px); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
     }
-
-    /* Float Animation */
     @keyframes imageFloat {
-      0% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      100% {
-        transform: translateY(-12px) rotate(0.5deg);
-      }
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-12px) rotate(0.5deg); }
     }
-
-    /* ===== QUOTE ===== */
     .dreams-quote {
       text-align: center;
       margin-top: 30px;
@@ -1008,6 +985,7 @@
     <section id="projects" class="scroll-anim">
       <h2 class="section-title">Projects</h2>
 
+      <!-- Project 1: Sama AI -->
       <div class="project-card glass scroll-anim-left">
         <h3><i class="fas fa-robot"></i> Sama AI</h3>
         <p>My flagship project — an AI-powered website built from scratch. Designed the UI, logic, and deployed it live.</p>
@@ -1020,7 +998,19 @@
         <a href="https://github.com/sujangyan42028-lgtm/SAMA-AI.git" target="_blank">🐙 GitHub Repo →</a>
       </div>
 
+      <!-- Project 2: Lone Traders (NEW) -->
       <div class="project-card glass scroll-anim-right">
+        <h3><i class="fas fa-chart-line"></i> Lone Traders</h3>
+        <p>A professional trading website built for a client. Designed the UI, layout, and deployed it live — focused on clean design and smooth user experience.</p>
+        <span class="tag">Client Work</span>
+        <span class="tag">Web Design</span>
+        <span class="tag">Live</span>
+        <br><br>
+        <a href="https://lone-traders.netlify.app/" target="_blank">🔗 Visit Lone Traders →</a>
+      </div>
+
+      <!-- Project 3: More Coming Soon -->
+      <div class="project-card glass scroll-anim-left">
         <h3><i class="fas fa-globe"></i> More Coming Soon</h3>
         <p>Constantly building — websites, apps, trading tools. Stay tuned!</p>
         <span class="tag">In Progress</span>
@@ -1028,7 +1018,7 @@
       </div>
     </section>
 
-    <!-- ===== DREAMS & SKILLS IMAGE SECTION (YOUR IMAGE) ===== -->
+    <!-- ===== DREAMS & SKILLS IMAGE SECTION ===== -->
     <section id="dreams" class="scroll-anim">
       <h2 class="section-title">Dreams &amp; Skills</h2>
 
